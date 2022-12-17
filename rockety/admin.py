@@ -20,6 +20,10 @@ class EngineAdmin(admin.ModelAdmin):
 
 
 class FuelAdmin(admin.ModelAdmin):
+    list_display = [
+        'acronym',
+        'name',
+    ]
     search_fields = [
         'name',
         'acronym',
@@ -33,9 +37,18 @@ class StageAdmin(admin.ModelAdmin):
 
 
 class TankAdmin(admin.ModelAdmin):
+    list_display = [
+        'get_name',
+        'fuel',
+    ]
     search_fields = [
         'fuel',
     ]
+
+    def get_name(self, obj):
+        return str(obj)
+
+    get_name.short_description = "Tank"
 
 
 admin.site.register(Engine, EngineAdmin)

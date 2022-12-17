@@ -22,7 +22,7 @@ class Engine(models.Model):
         return self.name
 
     def get_fuels(self):
-        return "\n".join([str(f) for f in self.fuels.all()])
+        return " ".join([str(f) for f in self.fuels.all()])
 
 
 class Fuel(models.Model):
@@ -33,6 +33,7 @@ class Fuel(models.Model):
     acronym = models.CharField(
         max_length=32,
         blank=True,
+        verbose_name='Fuel',
     )
     description = models.TextField(
         blank=True,
@@ -72,14 +73,27 @@ class Tank(models.Model):
         null=True,
         blank=True,
     )
+    weight = models.DecimalField(
+        max_digits=19,
+        decimal_places=5,
+        default=Decimal(0),
+        verbose_name="Weight (kg)",
+    )
+    volume = models.DecimalField(
+        max_digits=19,
+        decimal_places=5,
+        default=Decimal(0),
+        verbose_name="Volume (m³)"
+    )
     capacity = models.DecimalField(
         max_digits=19,
         decimal_places=5,
         default=Decimal(0),
+        verbose_name="Capacity (kg)",
     )
 
     def __str__(self):
         if not self.name.strip():
-            return f"{self.fuel} - {self.capacity}"
+            return f"{self.fuel} - {self.capacity:,.2f} kg"
 
         return self.name
