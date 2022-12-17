@@ -45,6 +45,22 @@ class Engine(models.Model):
         return "\n".join([str(f) for f in self.fuels.all()])
 
 
+class Stage(models.Model):
+    name = models.CharField(
+        max_length=512,
+    )
+    tanks = models.ManyToManyField(
+        'Tank',
+    )
+    engines = models.ManyToManyField(
+        'Engine',
+    )
+
+    def __str__(self):
+        return self.name
+
+
+
 class Tank(models.Model):
     name = models.CharField(
         max_length=512,
@@ -66,19 +82,4 @@ class Tank(models.Model):
         if not self.name.strip():
             return f"{self.fuel} - {self.capacity}"
 
-        return self.name
-
-
-class Stage(models.Model):
-    name = models.CharField(
-        max_length=512,
-    )
-    tanks = models.ManyToManyField(
-        'Tank',
-    )
-    engines = models.ManyToManyField(
-        'Engine',
-    )
-
-    def __str__(self):
         return self.name
