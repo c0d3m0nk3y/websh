@@ -3,26 +3,6 @@ from decimal import Decimal
 from django.contrib.gis.db import models
 
 
-class Fuel(models.Model):
-    name = models.CharField(
-        max_length=512,
-        blank=True,
-    )
-    acronym = models.CharField(
-        max_length=32,
-        blank=True,
-    )
-    description = models.TextField(
-        blank=True,
-    )
-
-    def __str__(self):
-        if not self.acronym.strip():
-            return self.name
-
-        return self.acronym
-
-
 class Engine(models.Model):
     name = models.CharField(
         max_length=32,
@@ -43,6 +23,26 @@ class Engine(models.Model):
 
     def get_fuels(self):
         return "\n".join([str(f) for f in self.fuels.all()])
+
+
+class Fuel(models.Model):
+    name = models.CharField(
+        max_length=512,
+        blank=True,
+    )
+    acronym = models.CharField(
+        max_length=32,
+        blank=True,
+    )
+    description = models.TextField(
+        blank=True,
+    )
+
+    def __str__(self):
+        if not self.acronym.strip():
+            return self.name
+
+        return self.acronym
 
 
 class Stage(models.Model):
