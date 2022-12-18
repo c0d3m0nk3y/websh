@@ -86,11 +86,14 @@ class TankAdmin(admin.ModelAdmin):
         )
 
         if "to" in search_term:
-            a, b = search_term.replace(',','').split('to')
-            queryset |= self.model.objects.filter(
-                Q(volume__range=[a, b])
-                | Q(capacity__range=[a, b])
-            )
+            try:
+                a, b = search_term.replace(',','').split('to')
+                queryset |= self.model.objects.filter(
+                    Q(volume__range=[a, b])
+                    | Q(capacity__range=[a, b])
+                )
+            except Exception:
+                pass
 
         return queryset, may_have_duplicates
 
