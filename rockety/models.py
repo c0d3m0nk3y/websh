@@ -4,18 +4,18 @@ from django.contrib.gis.db import models
 
 
 class Engine(models.Model):
-    name = models.CharField(
-        max_length=32,
-    )
     description = models.TextField(
         blank=True,
+    )
+    fuels = models.ManyToManyField(
+        'Fuel',
     )
     isp = models.DecimalField(
         max_digits=8,
         decimal_places=2,
     )
-    fuels = models.ManyToManyField(
-        'Fuel',
+    name = models.CharField(
+        max_length=32,
     )
 
     def __str__(self):
@@ -26,16 +26,16 @@ class Engine(models.Model):
 
 
 class Fuel(models.Model):
-    name = models.CharField(
-        max_length=512,
-        blank=True,
-    )
     acronym = models.CharField(
         max_length=32,
         blank=True,
         verbose_name='Fuel',
     )
     description = models.TextField(
+        blank=True,
+    )
+    name = models.CharField(
+        max_length=512,
         blank=True,
     )
 
@@ -46,15 +46,37 @@ class Fuel(models.Model):
         return self.acronym
 
 
+class Rocket(models.Model):
+    dry_mass = models.DecimalField(
+        max_digits=19,
+        decimal_places=5,
+        default=Decimal(0),
+        verbose_name="Dry Mass (kg)"
+    )
+    name = models.CharField(
+        max_length=512,
+    )
+    stages = models.ManyToManyField(
+        'Stage',
+    )
+    wet_mass = models.DecimalField(
+        max_digits=19,
+        decimal_places=5,
+        default=Decimal(0),
+        verbose_name="Wet Mass (kg)"
+    )
+
+
+
 class Stage(models.Model):
+    engines = models.ManyToManyField(
+        'Engine',
+    )
     name = models.CharField(
         max_length=512,
     )
     tanks = models.ManyToManyField(
         'Tank',
-    )
-    engines = models.ManyToManyField(
-        'Engine',
     )
 
     def __str__(self):
@@ -63,9 +85,11 @@ class Stage(models.Model):
 
 
 class Tank(models.Model):
-    name = models.CharField(
-        max_length=512,
-        blank=True,
+    capacity = models.DecimalField(
+        max_digits=19,
+        decimal_places=5,
+        default=Decimal(0),
+        verbose_name="Capacity (kg)",
     )
     fuel = models.ForeignKey(
         'Fuel',
@@ -73,11 +97,9 @@ class Tank(models.Model):
         null=True,
         blank=True,
     )
-    weight = models.DecimalField(
-        max_digits=19,
-        decimal_places=5,
-        default=Decimal(0),
-        verbose_name="Weight (kg)",
+    name = models.CharField(
+        max_length=512,
+        blank=True,
     )
     volume = models.DecimalField(
         max_digits=19,
@@ -85,11 +107,11 @@ class Tank(models.Model):
         default=Decimal(0),
         verbose_name="Volume (m³)"
     )
-    capacity = models.DecimalField(
+    weight = models.DecimalField(
         max_digits=19,
         decimal_places=5,
         default=Decimal(0),
-        verbose_name="Capacity (kg)",
+        verbose_name="Weight (kg)",
     )
 
     def __str__(self):
