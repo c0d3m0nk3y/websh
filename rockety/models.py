@@ -107,11 +107,11 @@ class Tank(models.Model):
         default=Decimal(0),
         verbose_name="Volume (m³)"
     )
-    weight = models.DecimalField(
+    dry_mass = models.DecimalField(
         max_digits=19,
         decimal_places=5,
         default=Decimal(0),
-        verbose_name="Weight (kg)",
+        verbose_name="Dry Mass (kg)",
     )
 
     def __str__(self):
