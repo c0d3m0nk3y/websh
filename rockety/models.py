@@ -51,7 +51,11 @@ class Rocket(models.Model):
         max_digits=19,
         decimal_places=5,
         default=Decimal(0),
-        verbose_name="Dry Mass (kg)"
+        verbose_name="Dry Mass (kg)",
+    )
+    image = models.ImageField(
+        upload_to='img/rocket',
+        blank=True,
     )
     name = models.CharField(
         max_length=512,
@@ -63,7 +67,7 @@ class Rocket(models.Model):
         max_digits=19,
         decimal_places=5,
         default=Decimal(0),
-        verbose_name="Wet Mass (kg)"
+        verbose_name="Wet Mass (kg)",
     )
 
     def __str__(self):
