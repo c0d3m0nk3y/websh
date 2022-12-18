@@ -2,5 +2,25 @@
 {% block content %}
 <div class="container">
     <h1>Welcome to Strappy</h1>
+    {% for rocket in rockets %}
+    <div class="card" style="width: 18rem;">
+        <img src="{{ rocket.image.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h1 class="card-title">{{ rocket }}</h1>
+            {% for stage in rocket.stages.all %}
+                <h2>Stage: {{ stage }}</h2>
+                {% for engine in stage.engines.all %}
+                    <h3>Engine: {{ engine }}</h3>
+                    <h4>Fuels: {{ engine.fuels.all|join:", " }}</h4>
+                    <h4><i>I</i><sub>sp</sub>: {{ engine.isp }}</h4>
+                {% endfor %}
+                {% for tank in stage.tanks.all %}
+                    <h3>Tank: {{ tank }}</h3>
+                {% endfor %}
+            {% endfor %}
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock content %}
