@@ -15,7 +15,6 @@ class EngineAdmin(admin.ModelAdmin):
 
     def get_fuels(self, obj):
         return obj.get_fuels()
-
     get_fuels.short_description = "Fuels"
 
 
@@ -28,6 +27,27 @@ class FuelAdmin(admin.ModelAdmin):
         'name',
         'acronym',
     ]
+
+
+class RocketAdmin(admin.ModelAdmin):
+    list_display = [
+        'name',
+        'get_stages',
+        'get_dry_mass',
+        'get_wet_mass',
+    ]
+
+    def get_stages(self, obj):
+        return obj.get_stages()
+    get_stages.short_description = "Stages"
+
+    def get_dry_mass(self, obj):
+        return f"{obj.dry_mass:,.2f}"
+    get_dry_mass.short_description = "Dry Mass (kg)"
+
+    def get_wet_mass(self, obj):
+        return f"{obj.wet_mass:,.2f}"
+    get_wet_mass.short_description = "Wet Mass (kg)"
 
 
 class StageAdmin(admin.ModelAdmin):
@@ -64,3 +84,4 @@ admin.site.register(Engine, EngineAdmin)
 admin.site.register(Fuel, FuelAdmin)
 admin.site.register(Stage, StageAdmin)
 admin.site.register(Tank, TankAdmin)
+admin.site.register(Rocket, RocketAdmin)

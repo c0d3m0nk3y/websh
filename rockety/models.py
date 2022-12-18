@@ -66,6 +66,12 @@ class Rocket(models.Model):
         verbose_name="Wet Mass (kg)"
     )
 
+    def __str__(self):
+        return self.name
+
+    def get_stages(self):
+        return " ".join([str(s) for s in self.stages.all()])
+
 
 
 class Stage(models.Model):
