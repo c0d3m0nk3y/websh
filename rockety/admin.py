@@ -86,7 +86,7 @@ class TankAdmin(admin.ModelAdmin):
         )
 
         if "to" in search_term:
-            a, b = search_term.split(' to ')
+            a, b = search_term.replace(',','').split('to')
             queryset |= self.model.objects.filter(
                 Q(volume__range=[a, b])
                 | Q(capacity__range=[a, b])
