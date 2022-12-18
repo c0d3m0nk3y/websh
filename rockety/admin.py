@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Q
 
 from .models import *
 
@@ -64,7 +65,7 @@ class TankAdmin(admin.ModelAdmin):
         'get_capacity',
     ]
     search_fields = [
-        'fuel',
+        'name',
     ]
 
     def get_name(self, obj):
@@ -78,6 +79,20 @@ class TankAdmin(admin.ModelAdmin):
     def get_capacity(self, obj):
         return f"{obj.capacity:,.2f}"
     get_capacity.short_description = "Capacity (kg)"
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, may_have_duplicates = super().get_search_results(
+            request, queryset, search_term
+        )
+
+        if "to" in search_term:
+            a, b = search_term.split(' to ')
+            queryset |= self.model.objects.filter(
+                Q(volume__range=[a, b])
+                | Q(capacity__range=[a, b])
+            )
+
+        return queryset, may_have_duplicates
 
 
 admin.site.register(Engine, EngineAdmin)
