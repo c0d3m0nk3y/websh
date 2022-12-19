@@ -1,11 +1,13 @@
 import logging
 
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from rockety.models import Rocket
 
 logger = logging.getLogger(__name__)
+
 
 class Index(TemplateView):
     template_name = 'strappy/index.html'
@@ -17,5 +19,18 @@ class Index(TemplateView):
             self.template_name,
             {
                 'rockets': Rocket.objects.all(),
+            },
+        )
+
+
+class Hijack(TemplateView):
+    template_name = 'strappy/hijack.html'
+
+    def get(self, request):
+        return render(
+            request,
+            self.template_name,
+            {
+                'another_user': User.objects.get(pk=3)
             },
         )
