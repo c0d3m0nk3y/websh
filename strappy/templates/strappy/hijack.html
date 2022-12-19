@@ -1,12 +1,13 @@
 {% extends 'strappy/base.html' %}
-{% load socialaccount %}
+{% load hijack %}
 
 {% block content %}
 <div class="container">
-    <p>Welcome {{ user.username }}</p>
+    <h1>Welcome {{ user.username }}</h1>
+    <p>You can hijack {{ another_user }}: {{ request.user|can_hijack:another_user }}</p>
     <form action="{% url 'hijack:acquire' %}" method="POST">
         {% csrf_token %}
-        <input type="hidden" name="user_pk" value="3">
+        <input type="hidden" name="user_pk" value="{{ another_user.pk }}">
         <button type="submit">Hijack</button>
         <input class="btn btn-primary" type="hidden" name="next" value="{{ request.path }}">
     </form>

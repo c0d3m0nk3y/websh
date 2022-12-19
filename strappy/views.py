@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -29,5 +30,7 @@ class Hijack(TemplateView):
         return render(
             request,
             self.template_name,
-            {},
+            {
+                'another_user': User.objects.get(pk=3)
+            },
         )
