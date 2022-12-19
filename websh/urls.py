@@ -20,9 +20,12 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('strappy/', include('strappy.urls')),
     path('admin/', admin.site.urls),
+
     path('accounts/', include('allauth.urls')),
+    path('hijack/', include('hijack.urls')),
+
+    path('strappy/', include('strappy.urls')),
 ]
 
 if settings.DEBUG:
