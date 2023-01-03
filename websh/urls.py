@@ -26,6 +26,8 @@ urlpatterns = [
     path('hijack/', include('hijack.urls')),
 
     path('strappy/', include('strappy.urls')),
+
+    path('', include('windy.urls')),
 ]
 
 if settings.DEBUG:

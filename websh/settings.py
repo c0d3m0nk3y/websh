@@ -55,6 +55,7 @@ INSTALLED_APPS = [
 
     'rockety',
     'strappy',
+    'windy',
 ]
 
 MIDDLEWARE = [
